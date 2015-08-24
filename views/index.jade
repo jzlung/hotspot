@@ -12,13 +12,23 @@ html.
     function initialize() {
       var mapCanvas = document.getElementById('map');
       var mapOptions = {
-        center: new google.maps.LatLng(44.5403, -78.5463),
-        zoom: 8,
+        center: new google.maps.LatLng(37.791207, -122.417335),
+        zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
-      var map = new google.maps.Map(mapCanvas, mapOptions)
+      var map = new google.maps.Map(mapCanvas, mapOptions);
+      map.set('styles', [
+        {
+          featureType: 'landscape',
+          elementType: 'geometry',
+          stylers: [
+            { color: '#dd8080' }
+          ]
+        }
+      ]);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
+
   </script>
   </head>
   <body>
