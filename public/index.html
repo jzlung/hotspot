@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!-- <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tag above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -13,10 +13,132 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Hotspot</title>
+
+    <style>
+
+      html {
+        height: 100%;
+      }
+
+      body{
+        width: 100%;
+        height: 100%;
+      }
+
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+
+      .crate {
+        height: 75%;
+        width: 100%;
+      }
+
+      .map {
+        width: 100%;
+        /*height: 75%;*/
+      }
+
+    </style>
+
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+
+      <div class="crate">
+        <!-- <h1>Hotspot</h1> -->
+        <div class="map">
+
+        </div>
+      </div>
+
+
+
+    </div>
+      <script src="https://maps.googleapis.com/maps/api/js"></script>
+      <script src="sf_neighborhoods_yelp/southBeach.js"></script>
+      <script src="sf_neighborhoods_yelp/chinatown.js"></script>
+      <script src="sf_neighborhoods_yelp/nobHill.js"></script>
+      <script src="sf_neighborhoods_yelp/ingleside.js"></script>
+      <script src="sf_neighborhoods_yelp/castro.js"></script>
+      <!-- Sunset has a lot of non food/drink -->
+      <script src="sf_neighborhoods_yelp/sunset.js"></script>
+      <script src="sf_neighborhoods_yelp/bayview.js"></script>
+      <script src="sf_neighborhoods_yelp/portola.js"></script>
+      <script src="sf_neighborhoods_yelp/lakeMerced.js"></script>
+      <script src="sf_neighborhoods_yelp/twinPeaks.js"></script>
+      <script src="sf_neighborhoods_yelp/northBeach.js"></script>
+      <script src="sf_neighborhoods_yelp/tenderloin.js"></script>
+      <script src="sf_neighborhoods_yelp/soma.js"></script>
+      <script src="sf_neighborhoods_yelp/mission.js"></script>
+      <script src="sf_neighborhoods_yelp/fidi.js"></script>
+      <script src="sf_neighborhoods_yelp/lowerPacificHeights.js"></script>
+      <script src="sf_neighborhoods_yelp/taraval.js"></script>
+      <script src="sf_neighborhoods_yelp/panhandle.js"></script>
+      <script src="sf_neighborhoods_yelp/innerRichmond.js"></script>
+      <script src="sf_neighborhoods_yelp/outerRichmond.js"></script>
+      <script src="sf_neighborhoods_yelp/marina.js"></script>
+      <!-- Sunset has a lot of non food/drink -->
+      <script src="sf_neighborhoods_yelp/bayshore.js"></script>
+      <script src="sf_neighborhoods_yelp/rinconHill.js"></script>
+
+      <script src="tester.js"></script>
+      <script>
+
+        function initialize() {
+
+          const mapCanvas = document.querySelector('.map');
+          map = new google.maps.Map(mapCanvas, {
+              center: new google.maps.LatLng(37.776574, -122.446726),
+              zoom: 13,
+            });
+            mapCanvas.style.height = 0.75 * mapCanvas.getBoundingClientRect().width + "px";
+
+            map.data.loadGeoJson(
+                'http://localhost:8000/sf_neighborhoods.json');
+
+          google.maps.event.addDomListener(window, 'load', initialize);
+
+          window.onresize = function() {
+            const mapCanvas = document.querySelector('.map');
+            mapCanvas.style.height = 0.75 * mapCanvas.getBoundingClientRect().width + "px";
+          };
+
+          map.data.setStyle(function(feature) {
+            // const rand = Math.floor(Math.random() * (6 - 1)) + 1;
+            // const color = HEAT_SCORE[rand];
+            // // console.log(feature.f.neighborhood + ": " + rand);
+            // console.log(feature.f.neighborhood + ": " + NEIGHBORHOOD_HEAT_SCORE[feature.f.neighborhood]);
+
+            // if (!NEIGHBORHOOD_HEAT_SCORE.hasOwnProperty(feature.f.neighborhood)) {
+            //   console.log(feature.f.neighborhood + "=====");
+            // }
+            
+            return {
+              fillColor: NEIGHBORHOOD_HEAT_SCORE.hasOwnProperty(feature.f.neighborhood) ? HEAT_SCORE[NEIGHBORHOOD_HEAT_SCORE[feature.f.neighborhood]] : "gray"
+              // fillColor: HEAT_SCORE[Math.round(Math.random(5) + 1)]
+              // fillColor: color
+            }
+          });
+
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+      </script>
+
+
+
+
+
+
+
+
+
+
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
